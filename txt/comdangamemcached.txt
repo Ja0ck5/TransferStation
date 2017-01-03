@@ -1,0 +1,9 @@
+
+
+由于目前java memcached client没有官方的maven repository可供使用，因此使用时需要手动将其安装到本地repository。java memcached client的jar包下载地址：https://github.com/gwhalin/Memcached-Java-Client/downloads 
+
+
+
+目前2.6.6版本的java memcached client要依赖slf4j-simple、slf4j-api、commons-pool三个包，依此我们可以为其编辑一个pom文件，将java memcached client的jar包和pom文件一起安装，解决java memcached client对其他jar包的依赖。安装命令：
+
+mvn install:install-file -Dfile=F:\Maven\developer\repository\com\danga\java-memcached\2.6.6\java_memcached-release_2.6.6.jar -DpomFile=F:\Maven\developer\repository\com\danga\java-memcached\2.6.6\pom.xml

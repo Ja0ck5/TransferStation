@@ -1,0 +1,23 @@
+ECS Centos 7 系统安装图形化桌面
+
+阿里云官网默认的Linux Centos7系统镜像，都是没有安装桌面环境的，用户如果要使用桌面，需要自己在服务器上进行安装。
+
+本教程以MATE桌面安装为例 
+
+1、登录服务器，执行命令安装桌面环境。
+
+先安装MATE Desktop
+
+yum groups install "MATE Desktop"
+
+安装好MATE Desktop 后，再安装X Window System。
+
+yum groups install "X Window System"
+
+设置服务器默认启动桌面
+
+systemctl  set-default  graphical.target
+
+安装完成后，执行命令重启服务器，在ECS服务器控制台，使用管理终端登陆服务器桌面。
+
+reboot

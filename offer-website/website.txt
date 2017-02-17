@@ -8,14 +8,6 @@
 2，弄清楚以下所有问题
 http://blog.csdn.net/u011734144/article/details/51103372
 
-3，115道
-http://www.importnew.com/10980.html
-http://www.importnew.com/11028.html
+3，牛客刷题
 
-
-4，牛客刷题
-
-
-
-5，
-http://www.codeceo.com/article/java-interview-question.html
+4，http://www.codeceo.com/article/java-interview-question.html

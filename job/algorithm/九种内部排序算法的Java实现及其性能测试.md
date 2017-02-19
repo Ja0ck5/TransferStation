@@ -258,8 +258,8 @@ public class QuickSortSolution {
 			a[hi] = a[lo];
 			//最终 a[hi] 要大于基准点，a[lo]要小于基准点
 		}
-		a[lo] = pivot;
-		return lo;
+		a[lo] = pivot;//基准点的值赋值给最后的 lo 。排序完毕
+		return lo;//返回基准点索引
 	}
 }
 ```

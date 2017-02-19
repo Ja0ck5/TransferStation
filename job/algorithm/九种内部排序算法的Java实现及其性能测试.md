@@ -18,7 +18,7 @@
     
 > 一个已经有序的数组或者是元素全部相等的数组，和一个元素随机排列的数组所用的时间一样长
 
-```
+```java
 public class SelectSortSolution {
 	public static void selectSort(int[] a) {
 			if (null == a || a.length < 2)
@@ -62,23 +62,36 @@ public class SelectSortSolution {
 复杂度：O(n^2) - O(n) - O(n^2) - O(1)[平均 - 最好 - 最坏 - 空间复杂度]
 
 ```java
-public void insertionSort(int[] a) {
-		if (null == a || a.length < 2) {
+package com.lyj.algorithms.eightSorts;
+
+public class InsertSortSolution {
+	
+	public static void insertionSort(int[] a) {
+		if (null == a || a.length < 2)
 			return;
-		}
+		int j;
+		//循环从第二个数组元素开始，因为arr[0]作为最初已排序部分
 		for (int i = 1; i < a.length; i++) {
-			// 暂存当前值
-			int temp = a[i];
-			int j = i - 1;
-			while (j >= 0 && temp < a[j]) {
-				// 后移
-				a[j + 1] = a[j];
-				j--;
-			}
-			// 当前值归位
-			a[j + 1] = temp;
+			int temp = a[i];// 暂存当前值
+			for (j = i - 1;j >= 0 && temp < a[j];j--)//将temp与已排序元素从大到小比较，寻找temp应插入的位置
+				a[j + 1] = a[j];//比temp大则后移
+			a[j + 1] = temp;// 当前值归位
 		}
 	}
+
+	
+	public static void main(String[] args) {
+		int[] array = {2,5,4,3,1,7,9,8,6};
+		insertionSort(array);
+		printArray(array);
+	}
+
+	private static void printArray(int[] array) {
+		for (int i = 0; i < array.length; i++) {
+			System.out.print(" "+array[i]);
+		}
+	}
+}
 ```
 
 ### 2.希尔排序(缩小增量排序)[不稳定]

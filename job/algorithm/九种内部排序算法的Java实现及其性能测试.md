@@ -121,7 +121,7 @@ public class ShellSortSolution {
 		int j;
 		for (int h = a.length/2; h > 0; h/=2) {
 			// 从1B开始先和1A比较 然后2A与2B...然后再1C向前与同组的比较
-			//插入排序
+			//插入排序 将数组变成 h 有序
 			for (int i = h; i < a.length; i++) {
 				// 内部直接插入
 				int temp = a[i];

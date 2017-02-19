@@ -112,24 +112,38 @@ public class InsertSortSolution {
 内循环通过模拟并行的方式完成分组的内部直接插入排序，而不是一个一个分组分组的排，在10w的随机数据20w的随机数据均表现优异。
 
 ```java
-public void shellSort(int[] a) {
-		if (null == a || a.length < 2) {
+package com.lyj.algorithms.eightSorts;
+
+public class ShellSortSolution {
+	public static void shellSort(int[] a) {
+		if (null == a || a.length < 2)
 			return;
-		}
-		for (int d = a.length/2; d > 0; d/=2) {
+		int j;
+		for (int h = a.length/2; h > 0; h/=2) {
 			// 从1B开始先和1A比较 然后2A与2B...然后再1C向前与同组的比较
-			for (int i = d; i < a.length; i++) {
+			//插入排序
+			for (int i = h; i < a.length; i++) {
 				// 内部直接插入
 				int temp = a[i];
-				int j = i - d;
-				while (j >=0 && temp < a[j]) {
-					a[j+d] = a[j];
-					j -= d;
-				}
-				a[j+d] = temp;
+				for(j = i-h;j >=0 && temp < a[j];j -= h) 
+					a[j+h] = a[j];
+				a[j+h] = temp;
 			}
 		}
 	}
+	
+	public static void main(String[] args) {
+		int[] array = {2,5,4,3,1,7,9,8,6};
+		shellSort(array);
+		printArray(array);
+	}
+
+	private static void printArray(int[] array) {
+		for (int i = 0; i < array.length; i++) {
+			System.out.print(" "+array[i]);
+		}
+	}
+}
 ```
 
 ### 3.冒泡排序[稳定]

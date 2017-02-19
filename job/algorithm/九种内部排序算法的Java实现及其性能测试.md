@@ -7,6 +7,48 @@
 结论：归并排序和堆排序维持O(nlgn)的复杂度，速率差不多，表现优异。固定基准的快排表现很是优秀。而通过使用一个循环完成按增量分组后的直接插入的希尔排序，测试效果显著。
 冒泡，选择，直接插入都很慢，而冒泡效率是最低。
 
+
+### 1.选择排序[不稳定]
+
+原理：每次从无序序列选取最小的
+
+复杂度：O(n^2) - O(n^2) - O(n^2) - O(1)[平均 - 最好 - 最坏 - 空间复杂度]
+
+```
+public class SelectSortSolution {
+	public static void selectSort(int[] a) {
+			if (null == a || a.length < 2)
+				return;
+			//将 a[i] 与 a[i+1...N] 中最小的元素交换
+			for (int i = 0; i < a.length; i++) {
+				int min = i;//最小元素索引
+				for (int j = i + 1; j < a.length; j++) {
+					if (a[j] < a[min])
+						min = j;
+				}
+				//交换
+				if (min!=i) {
+					a[i]   ^= a[min];
+					a[min] ^= a[i];
+					a[i]   ^= a[min];
+				}
+			}
+		}
+	
+	public static void main(String[] args) {
+		int[] array = {2,5,4,3,1,7,9,8,6};
+		selectSort(array);
+		printArray(array);
+	}
+
+	private static void printArray(int[] array) {
+		for (int i = 0; i < array.length; i++) {
+			System.out.print(" "+array[i]);
+		}
+	}
+}
+```
+
 ### 1.插入排序[稳定]
 
 适用于小数组,数组已排好序或接近于排好序速度将会非常快
@@ -87,32 +129,6 @@ public void bubbleSort(int[] a) {
 	}
 ```
 
-### 4.选择排序[不稳定]
-
-原理：每次从无序序列选取最小的
-
-复杂度：O(n^2) - O(n^2) - O(n^2) - O(1)[平均 - 最好 - 最坏 - 空间复杂度]
-
-```java
-public void selectSort(int[] a) {
-		if (null == a || a.length < 2) {
-			return;
-		}
-		for (int i = 0; i < a.length; i++) {
-			int k = i;
-			for (int j = i + 1; j < a.length; j++) {
-				if (a[j] < a[k]) {
-					k = j;
-				}
-			}
-			if (k!=i) {
-				int temp = a[k];
-				a[k] = a[i];
-				a[i] = temp;
-			}
-		}
-	}
-```
 
 ### 5.归并排序[稳定]
 

@@ -150,102 +150,80 @@ public class ShellSortSolution {
 	}
 }
 ```
+### 4.归并排序[稳定]
 
-### 3.冒泡排序[稳定]
+> 原理：采用分治法
+> 要将一个数组进行排序，可以先将它分为两半分别排序，然后将结果归并起来
 
-复杂度：O(n^2) - O(n) - O(n^2) - O(1)[平均 - 最好 - 最坏 - 空间复杂度]
-
-```java
-public void bubbleSort(int[] a) {
-		if (null == a || a.length < 2) {
-			return;
-		}
-		boolean flag;
-		for (int i = 0; i < a.length-1; i++) {
-			flag = false;
-			for (int j = 0; j < a.length-1-i; j++) {
-				if (a[j] > a[j+1]) {
-					int temp = a[j];
-					a[j] = a[j+1];
-					a[j+1] = temp;
-					flag = true;
-				}
-			}
-			if (false == flag) {
-				return;
-			}
-		}
-	}
-```
-
-
-### 5.归并排序[稳定]
-
-原理：采用分治法
 
 复杂度：O(nlogn) - O(nlgn) - O(nlgn) - O(n)[平均 - 最好 - 最坏 - 空间复杂度]
 
 ```java
-// 排序
-	public void mergeSort(int[] a, int low, int high) {
+package com.lyj.algorithms.eightSorts;
 
-		int mid = (low + high) / 2;
-		if (low < high) {
-			// 左边排序
-			mergeSort(a, low, mid);
-			// 右边排序
-			mergeSort(a, mid + 1, high);
-			// 有序序列合并
-			merge(a, low, mid, high);
-		}
+import java.util.Arrays;
+
+public class MergeSortSolution {
+	
+	public static void mergeSort(int[] a, int lo, int hi) {
+		if (hi <= lo) return;
+		int mid = (lo + hi) / 2;
+		mergeSort(a, lo, mid);// 左边排序
+		mergeSort(a, mid + 1, hi);// 右边排序
+		merge(a, lo, mid, hi);// 归并结果
 	}
 	
-	// 合并
-	private void merge(int a[], int low, int mid, int high) {
-		// 临时数组
-		int[] temp = new int[high - low + 1];
-		// 左指针
-		int i = low;
-		// 右指针
-		int j = mid + 1;
-		// 临时数组索引
+	//将 a[lo..mid] 与 a[mid+1..hi] 合并 
+	private static void merge(int a[], int lo, int mid, int hi) {
+		// 归并所需的辅助数组
+		int[] aux = new int[hi - lo + 1];
+		// 辅助数组索引
 		int k = 0;
-		
-		while (i <= mid && j <= high) {
-			if (a[i] < a[j]) {
-				temp[k++] = a[i++];
-			} else {
-				temp[k++] = a[j++];
-			}
+		int i = lo;// 左指针
+		int j = mid + 1;// 右指针
+		// 把较小的数先移到新数组中(每個子數組也反復執行)
+		while (i <= mid && j <= hi) {
+			if (a[i] < a[j])
+				aux[k++] = a[i++];
+			else
+				aux[k++] = a[j++];
 		}
-		
 		// 把左边剩余的数移入数组  
-		while (i <= mid) {
-			temp[k++] = a[i++];
-		}
-		
+		while (i <= mid) 
+			aux[k++] = a[i++];
+
 		// 把右边剩余的数移入数组  
-		while (j <= high) {
-			temp[k++] = a[j++];
-		}
+		while (j <= hi)
+			aux[k++] = a[j++];
 		
-		// 注意这里是low + t
-		for (int t = 0; t < temp.length; t++) {
-			a[low + t] = temp[t];
-		}
+		// 注意这里是lo + t  (即不同的子數組的起始位置----左指针)  把新数组中的数覆盖  原数组
+		for (int t = 0; t < aux.length; t++)
+			a[lo + t] = aux[t];
 	}
+	
+	 public static void main(String[] args) {
+	        int a[] = { 2, 6, 1, 4, 3, 9, 5, 8, 7 };
+	        mergeSort(a, 0, a.length - 1);
+	        System.out.println("排序结果：" + Arrays.toString(a));
+	    }
+}
+
 ```
 
-### 6.快速排序[不稳定]
+
+### 5.快速排序[不稳定]
 
 原理：分治+递归
+
+切分的位置取决于数组的内容 找到不大于不小于的中数
+
+分别将左右两部分排序，排好序之后，整个数组就是有序的。
 
 复杂度：O(nlgn) - O(nlgn) - O(n^2) - O(1)[平均 - 最好 - 最坏 - 空间复杂度]
 
 栈空间0(lgn) - O(n)
 
 ```java
-// 固定基准
 public void quickSort(int[] a, int low, int high) {
 		if (null == a || a.length < 2) {
 			return;
@@ -278,7 +256,8 @@ public void quickSort(int[] a, int low, int high) {
 	}
 ```
 
-### 7.堆排序[不稳定]
+
+### 6.堆排序[不稳定]
 
 堆一般指二叉堆。
 
@@ -333,6 +312,35 @@ public void quickSort(int[] a, int low, int high) {
 		}
 	}
 ```
+
+### 3.冒泡排序[稳定]
+
+复杂度：O(n^2) - O(n) - O(n^2) - O(1)[平均 - 最好 - 最坏 - 空间复杂度]
+
+```java
+public void bubbleSort(int[] a) {
+		if (null == a || a.length < 2) {
+			return;
+		}
+		boolean flag;
+		for (int i = 0; i < a.length-1; i++) {
+			flag = false;
+			for (int j = 0; j < a.length-1-i; j++) {
+				if (a[j] > a[j+1]) {
+					int temp = a[j];
+					a[j] = a[j+1];
+					a[j+1] = temp;
+					flag = true;
+				}
+			}
+			if (false == flag) {
+				return;
+			}
+		}
+	}
+```
+
+
 
 ### 8.基数排序[稳定]
 

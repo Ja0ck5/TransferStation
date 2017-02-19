@@ -107,6 +107,8 @@ public class InsertSortSolution {
 
 **希尔排序高效原因是它权衡了子数组的规模和有序性。**
 
+希尔排序比插入排序快，而且随着数组的规模越大，优势越大。
+
 复杂度 平均 O(n^1.3) 最好O(n) 最差O(n^s)[1<s<2] 空间O(1)
 
 内循环通过模拟并行的方式完成分组的内部直接插入排序，而不是一个一个分组分组的排，在10w的随机数据20w的随机数据均表现优异。
@@ -118,10 +120,12 @@ public class ShellSortSolution {
 	public static void shellSort(int[] a) {
 		if (null == a || a.length < 2)
 			return;
-		int j;
-		for (int h = a.length/2; h > 0; h/=2) {
+		int h=1,j;
+		//定义间隔
+		while(h<a.length/3) h = 3*h+1;//1,4,13,40...
+		while(h>=1) {
 			// 从1B开始先和1A比较 然后2A与2B...然后再1C向前与同组的比较
-			//插入排序 将数组变成 h 有序
+			//插入排序,将数组变成 h 有序
 			for (int i = h; i < a.length; i++) {
 				// 内部直接插入
 				int temp = a[i];
@@ -129,6 +133,7 @@ public class ShellSortSolution {
 					a[j+h] = a[j];
 				a[j+h] = temp;
 			}
+			h/=3;
 		}
 	}
 	

@@ -4,13 +4,6 @@
 
 第九种为java.util.Arrays.sort（改进的快速排序方法）
 
-1. 100000的随机数据集
-![](http://7xlkoc.com1.z0.glb.clouddn.com/sort1.jpg)
-2. 200000的随机数据集
-![](http://7xlkoc.com1.z0.glb.clouddn.com/sort2.jpg)
-3. 500000的随机数据集
-![](http://7xlkoc.com1.z0.glb.clouddn.com/sort3.jpg)
-
 结论：归并排序和堆排序维持O(nlgn)的复杂度，速率差不多，表现优异。固定基准的快排表现很是优秀。而通过使用一个循环完成按增量分组后的直接插入的希尔排序，测试效果显著。
 冒泡，选择，直接插入都很慢，而冒泡效率是最低。
 
@@ -336,6 +329,3 @@ public void quickSort(int[] a, int low, int high) {
 }
 ```
 
-排序代码地址 [https://github.com/Lemonjing/TinyCoding/tree/master/src/main/java/com/tinymood/javase/sort](https://github.com/Lemonjing/TinyCoding/tree/master/src/main/java/com/tinymood/javase/sort)
-
-性能测试代码地址 [https://github.com/Lemonjing/TinyCoding/tree/master/src/test/java/com/tinymood/javase/sort](https://github.com/Lemonjing/TinyCoding/tree/master/src/test/java/com/tinymood/javase/sort)

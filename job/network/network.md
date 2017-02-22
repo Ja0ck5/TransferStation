@@ -522,7 +522,3 @@ RSA公开密钥密码体制
 防火墙：是由软件硬件构成的系统，用来在两个网络之间实施接入控制策略。
 
 ----
-
-完，作者：Campanulaceae [微博](http://weibo.com/u/1662536394)
-
-To Be Continued...

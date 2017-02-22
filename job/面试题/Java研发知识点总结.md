@@ -608,6 +608,20 @@ HashSet 的内部采用 HashMap来实现。由于 Map 需要 key 和 value，所
 
 该问题的关键在于面试者使用的是 ArrayList 的 remove() 还是 Iterator 的 remove()方法。这有一段示例代码，是使用正确的方式来实现在遍历的过程中移除元素，而不会出现 ConcurrentModificationException 异常的示例代码。
 
+```java
+		for (int i = 0; i < arrayList.size(); i++) {
+			System.out.println(arrayList.get(i));
+			arrayList.remove(i);
+			i--;
+		}
+		
+		Iterator<Integer> iterator = arrayList.iterator();
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
+			iterator.remove();
+		}
+```
+
 **60. 我们能自己写一个容器类，然后使用 for-each 循环吗？**
 
 可以，你可以写一个自己的容器类。如果你想使用 Java 中增强的循环来遍历，你只需要实现 Iterable 接口。如果你实现 Collection 接口，默认就具有该属性。

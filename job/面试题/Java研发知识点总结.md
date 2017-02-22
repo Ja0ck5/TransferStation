@@ -301,8 +301,6 @@ public class Test {
 
 声明为static和transient类型的数据不能被序列化， 反序列化需要一个无参构造函数
 
-序列化参见我的笔记[Java-note-序列化.md](https://github.com/it-interview/easy-job/blob/master/java/Java%E5%BA%8F%E5%88%97%E5%8C%96.md)
-
 **15.正则表达式**
 
 **次数符号**

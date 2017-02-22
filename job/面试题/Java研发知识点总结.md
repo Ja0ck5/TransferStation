@@ -104,7 +104,14 @@ ConcurrentHashMap是由Segment数组结构和HashEntry数组结构组成。Segme
 
 ConcurrentHashMap的构造、get、put操作：
 
-构造函数：传入参数分别为 1、初始容量，默认16 2、装载因子 装载因子用于rehash的判定，就是当ConcurrentHashMap中的元素大于装载因子*最大容量时进行扩容，默认0.75 3、并发级别 这个值用来确定Segment的个数，Segment的个数是大于等于concurrencyLevel的第一个2的n次方的数。比如，如果concurrencyLevel为12，13，14，15，16这些数，则Segment的数目为16(2的4次方)。默认值为static final int DEFAULT_CONCURRENCY_LEVEL = 16;。理想情况下ConcurrentHashMap的真正的并发访问量能够达到concurrencyLevel，因为有concurrencyLevel个Segment，假如有concurrencyLevel个线程需要访问Map，并且需要访问的数据都恰好分别落在不同的Segment中，则这些线程能够无竞争地自由访问（因为他们不需要竞争同一把锁），达到同时访问的效果。这也是为什么这个参数起名为“并发级别”的原因。默认16.
+构造函数：传入参数分别为 
+1、初始容量，默认16 
+
+2、装载因子 装载因子用于rehash的判定，就是当ConcurrentHashMap中的元素大于装载因子*最大容量时进行扩容，默认0.75 
+
+3、并发级别 这个值用来确定Segment的个数，Segment的个数是大于等于concurrencyLevel的第一个2的n次方的数。
+
+比如，如果concurrencyLevel为12，13，14，15，16这些数，则Segment的数目为16(2的4次方)。默认值为static final int DEFAULT_CONCURRENCY_LEVEL = 16;。理想情况下ConcurrentHashMap的真正的并发访问量能够达到concurrencyLevel，因为有concurrencyLevel个Segment，假如有concurrencyLevel个线程需要访问Map，并且需要访问的数据都恰好分别落在不同的Segment中，则这些线程能够无竞争地自由访问（因为他们不需要竞争同一把锁），达到同时访问的效果。这也是为什么这个参数起名为“并发级别”的原因。默认16.
 
 初始化的一些动作：
 

@@ -1605,7 +1605,7 @@ Java 程序中 wait 和 sleep 都会造成某种形式的暂停，它们可以�
 可重入锁：如果当前线程已经获得了某个监视器对象所持有的锁，那么该线程在该方法中调用另外一个同步方法也同样持有该锁。
 
 ```java
-public synchrnozied void test() {
+public synchronized void test() {
     xxxxxx;
     test2();
 }

@@ -1,4 +1,4 @@
-package cn.itcast.crawler.search;
+package cn.lyj.crawler.search;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;

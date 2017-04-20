@@ -4,19 +4,24 @@
 
 ## Tech
 
-**算法 algorithm**
-
-深入源码
+**算法4 algorithm**
+**算法导论**
 
 **Hadoop 家族**
 
 **架构设计**
+
+深入源码
+
+C/C++
 
 nodejs
 
 python
 
 scala groovy lua 
+
+R
 
 Ruby
 

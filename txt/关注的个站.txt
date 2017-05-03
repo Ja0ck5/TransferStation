@@ -1,6 +1,7 @@
 
 		https://discuss.leetcode.com/
-
+		
+		https://lufficc.com/blog
 
 		http://blog.brucefeng.info/
 		

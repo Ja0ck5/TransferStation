@@ -57,7 +57,7 @@ RocketMQ 给 apache 孵化之后的 控制台位置在
 
 
 
->  若出现 connect broker failed 需要在启动的 配置文件 broker-a.properties 配置具体的 broker 的ip
+>  若出现 Caused by: org.apache.rocketmq.remoting.exception.RemotingConnectException: connect to <192.0.0.1:10911> failed 需要在启动的 配置文件 broker-a.properties 配置具体的 broker 的ip
 	
 	brokerIP1=192.168.72.132 [具体的服务器的IP地址]
 

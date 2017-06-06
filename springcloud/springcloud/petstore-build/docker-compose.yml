@@ -1,0 +1,129 @@
+# petstore docker-compose
+
+version: "3"
+
+services:
+
+  # BEGIN 3rd-part Apps #######################################################
+
+  openvpn:
+    image: kylemanna/openvpn:2.0.0
+    container_name: openvpn
+    networks:
+      - devnet
+    ports:
+      - "1194:1194/udp"
+    volumes:
+      - ./openvpn-data:/etc/openvpn
+    cap_add:
+      - NET_ADMIN
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    networks:
+      devnet:
+        ipv4_address: $MYSQL_IP
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: petstore
+
+  redis:
+    image: redis:3.2
+    container_name: redis
+    networks:
+      devnet:
+        ipv4_address: $REDIS_IP
+
+  rabbitmq:
+    image: rabbitmq:3.6.6-management
+    container_name: rabbitmq
+    networks:
+      devnet:
+        ipv4_address: $RABBITMQ_IP
+
+  es:
+    image: elasticsearch:5.2.2
+    container_name: es
+    networks:
+      devnet:
+        ipv4_address: $ES_IP
+    volumes:
+      - ./es-data:/usr/share/elasticsearch/data
+
+  kibana:
+    image: kibana:5.2.2
+    container_name: kibana
+    networks:
+      devnet:
+        ipv4_address: $KIBANA_IP
+    environment:
+      ELASTICSEARCH_URL: http://$ES_IP:9200
+
+
+  # BEGIN Spring Cloud Apps ###################################################
+
+  eureka:
+    image: petstore-eureka:1.0-SNAPSHOT
+    container_name: petstore-eureka
+    networks:
+      devnet:
+        ipv4_address: $EUREKA_IP
+    volumes:
+      - /tmp
+    environment:
+      JAVA_OPTS: -Xmx256m
+
+  config:
+    image: petstore-config:1.0-SNAPSHOT
+    container_name: petstore-config
+    networks:
+      devnet:
+        ipv4_address: $CONFIG_IP
+    volumes:
+      - ../petstore-config-files:/etc/petstore-config-files
+      - /tmp
+    environment:
+      JAVA_OPTS: -Xmx256m
+
+  zipkin:
+    image: petstore-zipkin:1.0-SNAPSHOT
+    container_name: petstore-zipkin
+    networks:
+      devnet:
+        ipv4_address: $ZIPKIN_IP
+    volumes:
+      - /tmp
+    environment:
+      JAVA_OPTS: -Xmx512m
+
+  gateway:
+    image: petstore-gateway:1.0-SNAPSHOT
+    container_name: petstore-gateway
+    networks:
+      devnet:
+        ipv4_address: $GATEWAY_IP
+    volumes:
+      - /tmp
+    environment:
+      JAVA_OPTS: -Xmx256m
+
+  account:
+    image: petstore-account:1.0-SNAPSHOT
+    container_name: petstore-account
+    networks:
+      - devnet
+    volumes:
+      - /tmp
+    environment:
+      JAVA_OPTS: -Xmx256m
+
+networks:
+  devnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.27.0.0/16

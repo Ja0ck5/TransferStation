@@ -1,0 +1,9 @@
+# gateway configuration
+
+zuul:
+  ignoredServices: "*"
+  routes:
+    account:
+      serviceId: account
+      path: /api/account/**
+      stripPrefix: false

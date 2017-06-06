@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: jms
+
+  activemq:
+    in-memory: true
+    pool:
+      enabled: false
+
+server:
+  port: 9090

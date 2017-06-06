@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: data-jdbc
+
+server:
+  port: 9090

@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: data-multidatasource
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://61.160.36.225:3306/fhvideo_home?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false
+    username: ojiatest
+    password: ojia305
+  data-datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://61.160.36.225:3306/fhvideo_data?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf8&tinyInt1isBit=false
+    username: ojiatest
+    password: ojia305
+
+server:
+  port: 9090

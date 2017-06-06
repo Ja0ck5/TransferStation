@@ -1,0 +1,44 @@
+# config server port:
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: ${ENV:native}
+
+encrypt:
+  # encrypted key from env or using default:
+  key: ${SPRING_ENCRYPT_KEY:SecretKey4PetStore}
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_IP:172.27.0.201}:8761/eureka/
+
+---
+
+# native configuration:
+
+spring:
+  profiles: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:../petstore-config-files, file:/etc/petstore-config-files
+
+---
+
+# 定义一个test profiles，使用git配置:
+
+spring:
+  profiles: test
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/michaelliao/springcloud-config.git

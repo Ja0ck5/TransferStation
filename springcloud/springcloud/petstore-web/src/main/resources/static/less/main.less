@@ -1,0 +1,114 @@
+// main.less
+
+@import "uikit/themes/almost-flat/uikit.less";
+
+@import "uikit/src/less/components/tooltip.less";
+@import "uikit/themes/almost-flat/tooltip.less";
+
+@import "uikit/src/less/components/notify.less";
+@import "uikit/themes/almost-flat/notify.less";
+
+@import "uikit/src/less/components/progress.less";
+@import "uikit/themes/almost-flat/progress.less";
+
+@import "uikit/src/less/components/datepicker.less";
+@import "uikit/themes/almost-flat/datepicker.less";
+
+// customized less ////////////////////////////////////////////////////////////
+
+#q {
+	padding-bottom: 6px;
+	border: none;
+	border-bottom: 1px solid #ff9000;
+	background-color: transparent;
+	&:focus {
+		outline: none;
+	}
+}
+
+// override uikit /////////////////////////////////////////////////////////////
+
+// customize variables.less
+
+@base-body-background:                          #f6f6f6;
+@base-body-color:                               #666;
+
+@global-link-color:                             #ff9000;
+@global-link-hover-color:                       lighten(@global-link-color, 10%);
+
+@base-link-hover-text-decoration:               none;
+
+.hook-base-link-hover() {
+
+}
+
+// customize button.less
+
+@button-disabled-color:                         darken(@global-contrast-color, 30%);
+
+.hook-button-disable() {
+    border-color: @button-border;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+// grid.less
+
+@global-grid-gutter:            0;
+@grid-gutter-large-horizontal:  0;
+@grid-gutter-large-vertical:    0;
+@grid-gutter-xlarge-horizontal: 0;
+@grid-gutter-xlarge-vertical:   0;
+
+
+// customize utility.less /////////////////////////////////////////////////////
+
+@utility-container-max-width:                   960px;
+@utility-container-padding-horizontal:          0px;
+
+@utility-container-large-max-width:             960px;
+@utility-container-large-padding-horizontal:    0px;
+
+.hook-container() {
+    width: 960px !important;
+}
+
+// customize navbar.less //////////////////////////////////////////////////////
+
+@navbar-background:              #fff;
+@navbar-hover-background:		 #f6f6f6;
+
+@navbar-nav-color:               @base-body-color;
+@navbar-nav-font-size:           @global-font-size;
+
+@navbar-nav-hover-background:    @base-body-background;
+@navbar-nav-hover-color:         @global-link-color;
+
+@navbar-nav-onclick-background:  @base-body-background;
+@navbar-nav-onclick-color:       @global-link-color;
+
+@navbar-nav-active-background:   @base-body-background;
+@navbar-nav-active-color:        @global-link-color;
+
+@navbar-text-shadow:             none;
+
+@navbar-brand-font-size:         24px;
+@navbar-brand-color:             @base-body-color;
+@navbar-brand-hover-color:       @global-link-color;
+
+.uk-navbar-brand {
+    padding-left: 5px;
+}
+
+.hook-navbar-nav() {
+    border-top-width: 0;
+}
+
+.hook-navbar-nav-hover() {
+    position: relative; // 1
+    border-left-color:  darken(@navbar-hover-background, 5%);
+    border-right-color: darken(@navbar-hover-background, 5%);
+    border-top-width: 0;
+    background-color:   @navbar-hover-background;
+    color: @global-link-color;
+}

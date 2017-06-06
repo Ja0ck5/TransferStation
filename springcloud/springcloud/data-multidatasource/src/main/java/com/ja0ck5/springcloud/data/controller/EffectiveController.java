@@ -1,4 +1,4 @@
-package com.ja0ck5.springcloud.data.service;
+package com.ja0ck5.springcloud.data.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

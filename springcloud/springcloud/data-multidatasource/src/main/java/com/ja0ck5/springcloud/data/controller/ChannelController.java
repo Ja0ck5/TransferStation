@@ -1,4 +1,4 @@
-package com.ja0ck5.springcloud.data.service;
+package com.ja0ck5.springcloud.data.controller;
 
 import java.util.List;
 

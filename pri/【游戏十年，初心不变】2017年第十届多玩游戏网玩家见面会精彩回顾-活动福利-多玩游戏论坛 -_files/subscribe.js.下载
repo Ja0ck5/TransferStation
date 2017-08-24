@@ -1,0 +1,92 @@
+(function(){
+	var subscribe = {
+
+		subscribe_base:function(data,fn){
+			var url = 'home.php?mod=space&do=subscribe';
+			jQuery.ajax({
+					type: "post",
+					url: url,
+					data: data,
+					dataType: "json",
+					success: function(result){
+						fn(result);
+					}
+			});
+		},
+
+		click:function(){
+			jQuery(document).on('click','.btn-follow',function(){
+				var that = jQuery(this);
+				var touid = jQuery(this).attr('touid');
+        		var formhash = jQuery(this).attr('formhash');
+        
+        		if(jQuery(this).attr('type') == 'recomment'){
+        			var recommend_uid = new Array();
+        			that.parent('.item:visible').siblings().each(function(){
+				    recommend_uid.push(jQuery(this).children('.btn-follow').attr('touid'));
+				  	});
+				  	var data = {touid:touid,formhash:formhash,is_subscribe:'on',recommend_uid:recommend_uid}
+
+        			subscribe.subscribe_base(data,function(result){
+        				if(result === 0){
+			              alert('用户不存在');
+			            }else if(result === -1){
+			              alert('抱歉，你关注的人数超过了300人，达到上限了');
+			            }else{
+			              html = '';
+			              for(var o in result){
+			                html += "<a target='_blank' href='/home.php?mod=space&uid="+result[o].uid+"'><img src='"+result[o].pic+"' alt=''></a><strong><a target='_blank' href='/home.php?mod=space&uid="+result[o].uid+"'>"+result[o].username+"</a></strong><p><b>"+result[o].num+"</b>关注</p><a href='javascript:;' class='btn-follow' touid='"+result[o].uid+"' type='recomment' formhash = '"+formhash+"'>关注</a>";
+			              }
+			              that.parent('.item').html(html);
+			              if(html == ''){
+			                that.parent('.item').hide();
+			              }
+			        
+						}
+        			});
+        		}else{
+        			
+        		}
+
+			});
+		}
+	}
+
+	subscribe.click();
+})();
+
+function card_click(card_subscribe){
+	var that = jQuery(card_subscribe);
+	var touid = jQuery(card_subscribe).attr('touid');
+	var formhash = jQuery(card_subscribe).attr('formhash');
+	var data = {touid:touid,formhash:formhash,is_subscribe:jQuery(card_subscribe).attr('type')};
+	var url = 'home.php?mod=space&do=subscribe';
+	jQuery.ajax({
+		type: "post",
+		url: url,
+		data: data,
+		dataType: "json",
+		success: function(result){
+			if(result == 1){
+	     		that.attr('class','btn-follow is-following');
+	     		that.attr('type',"del");
+	     		that.html('已关注');
+	     	}else if(result == 0){
+	     		alert('用户不存在');
+	     	}else if(result == -1){
+	     		alert('抱歉，你关注的人数超过了300人，达到上限了');
+	     	}else if(result == 2){
+	     		that.attr('class','btn-follow');
+	     		that.attr('type',"on");
+	     		that.html('关注');
+	     	}
+		}
+	});
+}
+
+
+
+
+
+
+  

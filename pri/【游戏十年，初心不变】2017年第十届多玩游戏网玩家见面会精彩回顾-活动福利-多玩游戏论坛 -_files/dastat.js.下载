@@ -1,0 +1,176 @@
+(function (win, doc) {
+    var elements,//所有的广告元素的数组
+
+        /*兼容IE8*/
+        getElementsByClassName = function (className, element) {
+            var children = (element || document).getElementsByTagName('*');
+            var elements = new Array();
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                var classNames = child.className.split(' ');
+                for (var j = 0; j < classNames.length; j++) {
+                    if (classNames[j] == className) {
+                        elements.push(child);
+                        break;
+                    }
+                }
+            }
+            return elements;
+        },
+
+        /**
+         * 事件监听 
+         * */
+        addEvent = function (node, event, fn) {
+            if (document.addEventListener) {
+                node.addEventListener(event, fn, false);
+            } else if (document.attachEvent) {
+                node.attachEvent('on' + event, fn);
+            } else {
+                node['on' + event] = fn;
+            }
+        },
+        sendData = function (url, data) {
+            var img = new Image();
+
+            for (var key in data) {
+                url += "&" + key + "=" + data[key];
+            }
+
+            img.src = url;
+
+            img = null;
+        },
+        getBusinessElement = function () {
+            var eles = doc.getElementsByClassName ? doc.getElementsByClassName('da-block-wrapper') :
+                getElementsByClassName('da-block-wrapper', doc);
+
+            return [].slice.call(eles);
+        },
+        /**IE8下没有event.currentTarget属性而srcElement可能会获取到广告块里的图片元素。 */
+        getElementInIE8 = function (ele) {
+
+            var reg = /da-block-wrapper/;
+
+            while (ele && !reg.test(ele.className)) {
+                ele = ele.parentNode;
+            }
+            return ele;
+        },
+
+        getBrowserInfo = function () {
+            var explorer = window.navigator.userAgent.toLowerCase();
+            //ie
+            if (explorer.indexOf("msie") >= 0) {
+                var ver = explorer.match(/msie ([\d.]+)/)[1];
+                return { type: "IE", version: ver };
+            } else if (explorer.indexOf("trident") >= 0) {
+                return { type: "IE", version: 'unknow' };
+            }
+
+            //firefox
+            else if (explorer.indexOf("firefox") >= 0) {
+                var ver = explorer.match(/firefox\/([\d.]+)/)[1];
+                return { type: "Firefox", version: ver };
+            }
+            //Chrome
+            else if (explorer.indexOf("chrome") >= 0) {
+                var ver = explorer.match(/chrome\/([\d.]+)/)[1];
+                return { type: "Chrome", version: ver };
+            }
+            //Opera
+            else if (explorer.indexOf("opera") >= 0) {
+                var ver = explorer.match(/opera.([\d.]+)/)[1];
+                return { type: "Opera", version: ver };
+            }
+            //Safari
+            else if (explorer.indexOf("Safari") >= 0) {
+                var ver = explorer.match(/version\/([\d.]+)/)[1];
+                return { type: "Safari", version: ver };
+            } else {
+                return { type: "unknow", version: "unknow" };
+            }
+        },
+
+        /**上传数据 
+         * cpm时会有两个参数，第一个是加载完成的广告元素，第二个是字符串，用于区分cpm和cpc 
+         * cpc时一般只有event一个参数，在低版本IE里无参数，需要通过window.event来获取事件对象
+         * reportType : 1为展示 2为点击
+        */
+        reportData = function (ele) {
+            var reportType = (arguments.length >= 2 ? '1' : '2'),
+                reportUrl = 'http://dastat.duowan.com/?r=api/stat',
+
+                browserInfo = getBrowserInfo(),
+                data = {
+                    loc: ele.getAttribute('locid'),
+                    pid: ele.getAttribute('pid'),
+                    type: reportType,
+                    url: window.location.href,
+                    os: window.navigator.platform,
+                    browser: browserInfo.type + browserInfo.version,
+                    px: window.screen.width + "*" + window.screen.height
+                };
+
+
+            if (typeof data.loc != 'undefined' && typeof data.pid != 'undefined' && data.type) {
+                sendData(reportUrl, data);
+            }
+
+        }
+
+
+
+    /** 设置business的事件*/
+    setEventByType = function () {
+        //在body设置事件代理
+        addEvent(doc.body, 'click', function (e) {
+            e = e || window.event;
+            t = getElementInIE8(e.target);
+
+            if (t) {
+                reportData(t)
+            }
+        });
+
+        //监听图片加载事件
+        for (var i = 0, length = elements.length; i < length; i++) {
+            var ele = elements[i];
+
+            //dom内容加载后提交上报
+            reportData(ele, 'loaded');
+
+            // //广告图片加载完成后执行回调(cpm)
+            // ele.imgsfinish = 0;
+            // ele.imgslength = imgs.length;
+            // for (var j = 0, jlenght = imgs.length; j < imgs.length; j++) {
+            //     imgs[j].onload = (function (i) {
+
+            //         return function () {
+
+            //             elements[i].imgsfinish++;
+
+            //             if (elements[i].imgsfinish === elements[i].imgslength) {
+
+            //                 reportData(elements[i], 'loaded');
+            //             }
+            //         }
+
+            //     })(i);
+            // }
+        }
+    },
+
+        init = function () {
+            elements = getBusinessElement();
+
+            setEventByType();
+        };
+
+    doc.onreadystatechange = function () {
+        if (doc.readyState == 'complete') {
+            init();
+        }
+    };
+
+})(window, document)

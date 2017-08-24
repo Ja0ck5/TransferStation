@@ -1,0 +1,105 @@
+.qrcode-download-bar {
+    background-color:transparent;
+    background-color:rgba(0,0,0,0.7);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#b2000000,endColorstr=#b2000000);
+    position: fixed;
+    _position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    _filter: none;
+    _background-color: #4c4c4c;
+}
+
+.qrcode-download-bar .qrcode-download-inner {
+    height: 92px;
+    width: 960px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+:root .qrcode-download-bar{filter:none\9}
+
+.qrcode-download-bar .close {
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    height: 15px;
+    width: 15px;
+    overflow: hidden;
+    text-indent: -99em;
+    background: url(../img/qr_code_download_bar.png?lolhz) no-repeat 0 -233px;
+    _background-image: url(../img/qr_code_download_bar_ie6.png?lolhz);
+}
+.qrcode-download-bar .slogan {
+    width: 387px;
+    background: url(../img/qr_code_download_bar.png?lolhz) no-repeat 15px 2px;
+    _background-image: url(../img/qr_code_download_bar_ie6.png?lolhz);
+    margin: 23px 0 0 0;
+    padding: 0 0 0 73px;
+    height: 50px;
+    float: left;
+    color: #fff;
+    line-height: 24px;
+}
+.qrcode-download-bar .slogan a {
+    color: #fff;
+    font-size: 16px;
+    font-family: "Microsoft Yahei"!important;
+}
+.qrcode-download-bar .slogan a:hover {
+    text-decoration: none;
+}
+.qrcode-download-bar .slogan em {
+    color: #f5f74c;
+    font-family: "Microsoft Yahei"!important;
+}
+.qrcode-download-bar .mo-download-btn {
+    float: left;
+    padding: 25px 0 0 0;
+}
+.qrcode-download-bar .mo-download-btn a{
+    float: left;
+    width: 146px;
+    height: 44px;
+    background: url(../img/qr_code_download_bar.png?lolhz) no-repeat 0 -136px;
+    _background-image: url(../img/qr_code_download_bar_ie6.png?lolhz);
+    text-indent: -99em;
+    overflow:hidden;
+    display: inline;
+}
+.qrcode-download-bar .mo-download-btn .bbs-android-dl:hover {
+    background-position: 0 -48px;
+}
+.qrcode-download-bar .mo-download-btn .bbs-iphone-dl {
+    background-position: 0 -180px;
+    margin: 0 0 0 12px;
+}
+.qrcode-download-bar .mo-download-btn .bbs-iphone-dl:hover {
+    background-position: 0 -92px;
+}
+.qrcode-download-bar .qrcode-block {
+    float:left;
+}
+.qrcode-download-bar .qrcode-block .qrcode-tips{
+    float: left;
+    color: #fff;
+    line-height: 15px;
+    padding: 0 10px 0 16px;
+    margin-top: 30px;
+    font-family: "Microsoft Yahei"!important;
+}
+.qrcode-download-bar .qrcode-block .qrcode-img{
+    float: left;
+    margin:10px 0 0 0;
+}
+
+#mbbs-qrcode{
+    height:106px;
+    width: 95px;
+    /*background: url(../img/apk-qrcode.jpg?wentao1) no-repeat 0 -4px;*/
+   /* background:url({IMGDIR}/styleskin/{DWBTNIMAGE}) repeat-x 0 -132px;  论坛common.css 里面的模块标题栏图片路径*/
+    right:1%;
+    top:0;
+    z-index: 999999;
+    position: absolute;
+}

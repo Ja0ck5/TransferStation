@@ -1,0 +1,188 @@
+var rankValue = null;
+var load_pinfo = {};
+
+function load_users_pinfo(){
+	jQuery.ajax({
+	    type: "get",
+	    url: "plugin.php?id=prestige:attention",
+	    data: {"fid":fid, "type":"get_users_pinfo_new", "inajax":"1", "uids":uids, 'timestamp':Date.parse(new Date())},
+	    dataType: "json",
+	    success: function(data, textStatus){
+	    	var users_pinfo_html = "";
+	    	var users_pinfo = data;
+			if(users_pinfo!=null && typeof(users_pinfo)!="undefined" && typeof(users_pinfo["open_pname"])!="undefined"){
+				for(var i=0; i<uids.length; i++){
+					var class_name = "uid_"+uids[i];
+					if(users_pinfo["open_pname"]==1
+						&& (typeof(users_pinfo)!="undefined")
+						&& (typeof(users_pinfo["pinfo"])!="undefined") 
+						&& (typeof(users_pinfo["pinfo"][uids[i]])!="undefined")
+						&& (typeof(users_pinfo["pinfo"][uids[i]]["has_attention"])!="undefined")
+						&& (users_pinfo["pinfo"][uids[i]]["has_attention"]==1)
+						&& (typeof(users_pinfo["pinfo"][uids[i]]["noset_forumsetting"])!="undefined")
+						&& users_pinfo["pinfo"][uids[i]]["noset_forumsetting"]!=1
+					){
+						users_pinfo_html =  "<div class=\"rank-value\">"+
+											"<span class=\"prank-backimg\" style=\"background:url("+users_pinfo["pinfo"][uids[i]]["pbackimg_url"]+") no-repeat;\">"+
+											(users_pinfo["pinfo"][uids[i]]["hid_pname_text"]? '': users_pinfo["pinfo"][uids[i]]["pname"])+"</span>"+
+											"<div class=\"rank-value-tip tip\"><i></i>"+
+											"<div><em>本版排名：<span class=\"user-prank\" style=\"display:inline;\"><img src=\"static/prestige/img/ajax-loader.gif\" /></span></em>"+
+											"<em>本版声望：<span class=\"user-pvalue\" style=\"display:inline;\"><img src=\"static/prestige/img/ajax-loader.gif\" /></span></em>"+
+											"<em style=\"color:#888;\">"+users_pinfo["pinfo"][uids[i]]["pname_explain"]+"</em>"+
+											"<span class=\"user-pinfo-uid\" style=\"display:none;\">"+uids[i]+"</span>"+
+											"<a href=\"plugin.php?id=prestige:prestige_intro&fid="+fid+"\" title=\"\">[声望说明]</a>"+
+											"</div></div></div>";
+						jQuery("."+class_name).replaceWith(users_pinfo_html).attr("style", "display:'';");
+						show_pinfo();
+					}else{
+						jQuery("."+class_name).attr("style", "display:'';");
+					}
+				}
+			}
+		}
+	});
+}
+
+function load_users_pinfo_embed(){
+	jQuery.ajax({
+	    type: "get",
+	    url: "plugin.php?id=prestige:attention",
+	    data: {"fid":fid, "type":"get_users_pinfo_new", "inajax":"1", "uids":uids, 'timestamp':Date.parse(new Date())},
+	    dataType: "json",
+	    success: function(data, textStatus){
+
+	    	var users_pinfo_html = "";
+	    	var users_pinfo = data;
+			if(users_pinfo!=null && typeof(users_pinfo)!="undefined" && typeof(users_pinfo["open_pname"])!="undefined"){
+
+				for(var i=0; i<uids.length; i++){
+					var class_name = "uid_"+uids[i];
+					if(users_pinfo["open_pname"]==1
+						&& (typeof(users_pinfo)!="undefined")
+						&& (typeof(users_pinfo["pinfo"])!="undefined") 
+						&& (typeof(users_pinfo["pinfo"][uids[i]])!="undefined")
+						&& (typeof(users_pinfo["pinfo"][uids[i]]["has_attention"])!="undefined")
+						&& (users_pinfo["pinfo"][uids[i]]["has_attention"]==1)
+						&& (typeof(users_pinfo["pinfo"][uids[i]]["noset_forumsetting"])!="undefined")
+						//&& users_pinfo["pinfo"][uids[i]]["noset_forumsetting"]!=1
+					){
+						users_pinfo_html =  "<div class=\"levelicon-ctn\">" +
+											"<i class=\"s"+users_pinfo["pinfo"][uids[i]]["plevel"]+"\"></i>" +
+											"<div class=\"levelintro\">"+
+											"<ul>"+
+											"<li>排名：<span class=\"user-prank\" style=\"display:inline;\"><img src=\"static/prestige/img/ajax-loader.gif\" /></span></li>"+
+											"<li>声望：<span class=\"user-pvalue\" style=\"display:inline;\"><img src=\"static/prestige/img/ajax-loader.gif\" /></span></li>"+
+											"<li class=\"name\">"+users_pinfo["pinfo"][uids[i]]["pname_explain"]+"</li>"+
+											"<li style=\"display:none;\"> <span class=\"user-pinfo-uid\">"+uids[i]+"</span></li>"+
+											"</ul>"+
+											"<a href=\"plugin.php?id=prestige:prestige_intro&fid="+fid+"\" title=\"\">[声望说明]</a>"+
+											"</div></div>";
+						jQuery("."+class_name).replaceWith(users_pinfo_html).attr("style", "display:'';");
+						//show_pinfo();
+						jQuery(".levelicon-ctn>i").hover(function(obj) {
+								var parent_obj = jQuery(obj.target).parent();
+								parent_obj.find("div").show();
+								var item_uid = parent_obj.find('.user-pinfo-uid').text();
+								//var user_pvalue = parent_obj.find('.user-pvalue').text();
+								//var dateline = parent_obj.find('.user-pinfo-dateline').text();
+								if(typeof(load_pinfo[item_uid])=='undefined'){
+									load_pinfo[item_uid] = 0;
+									jQuery.ajax({
+										type: 'get',
+										url: 'plugin.php?id=prestige:attention',
+										dataType: 'json',
+										data: {'fid':fid, 'type':'get_user_prank_new', 'item_uid':item_uid, 'inajax':'1', 'timestamp':Date.parse(new Date())},
+										success: function(data, textStatus){
+											if(typeof(data['pvalue']) != 'undefined' ){
+												parent_obj.find('.user-pvalue').text(data['pvalue']);
+											}
+											if(typeof(data['prank']) != 'undefined' ){
+												parent_obj.find('.user-prank').text(data['prank']);
+											}
+											load_pinfo[item_uid] = data;
+										}
+									});
+								}else{
+									if (load_pinfo[item_uid] == 0) {
+										return true;
+									}
+									parent_obj.find('.user-pvalue').text(load_pinfo[item_uid]['pvalue']);
+									parent_obj.find('.user-prank').text(load_pinfo[item_uid]['prank']);
+								}
+						}, function(obj) {
+							var parent_obj = jQuery(obj.target).parent();
+							clearTimeout(rankValue);
+							rankValue = setTimeout(function(){
+								parent_obj.find("div").hide();
+							},400);
+						});
+						jQuery(".levelintro").hover(function(obj) {
+							clearTimeout(rankValue);
+						},function() {
+							jQuery(".levelintro").hide();
+						});
+					}else{
+						jQuery("."+class_name).attr("style", "display:'';");
+					}
+				}
+			}
+		}
+	});
+}
+
+function show_pinfo(){
+	jQuery(".rank-value>span").hover(user_pvalue_span_over, user_pvalue_span_out);
+	jQuery(".rank-value>div").hover(user_pvalue_div_over, user_pvalue_div_out);
+}
+
+function user_pvalue_span_over(obj){
+    //var parent_obj = jQuery(this).parent();
+	var parent_obj = jQuery(obj.target).parent();
+    parent_obj.find("div").show();
+    //var user_pvalue = parent_obj.find('.user-pvalue').text();
+    //var dateline = parent_obj.find('.user-pinfo-dateline').text();
+    var item_uid = parent_obj.find('.user-pinfo-uid').text();
+    if(typeof(load_pinfo[item_uid])=='undefined'){
+		load_pinfo[item_uid] = 0;
+        jQuery.ajax({
+            type: 'get',
+            url: 'plugin.php?id=prestige:attention',
+            dataType: 'json',
+            data: {'fid':fid, 'type':'get_user_prank_new', 'item_uid':item_uid, 'inajax':'1', 'timestamp':Date.parse(new Date())},
+            success: function(data, textStatus){
+            	if(typeof(data['pvalue']) != 'undefined' ){
+            		parent_obj.find('.user-pvalue').text(data['pvalue']);
+            	}
+            	if(typeof(data['prank']) != 'undefined' ){
+            		parent_obj.find('.user-prank').text(data['prank']);
+            	}
+            	load_pinfo[item_uid] = data;
+            }
+        });
+    }else{
+		if (load_pinfo[item_uid] == 0) {
+			return true;
+		}
+		parent_obj.find('.user-pvalue').text(load_pinfo[item_uid]['pvalue']);
+		parent_obj.find('.user-prank').text(load_pinfo[item_uid]['prank']);
+    }
+}
+
+function user_pvalue_span_out(obj){
+	//var parent_obj = jQuery(this).parent();
+	var parent_obj = jQuery(obj.target).parent();
+    clearTimeout(rankValue);
+    rankValue = setTimeout(function(){
+        parent_obj.find("div").hide();
+    },400);
+}
+
+function user_pvalue_div_over(){
+    clearTimeout(rankValue);
+}
+
+function user_pvalue_div_out(obj){
+    //var parent_obj = jQuery(this).parent();
+	var parent_obj = jQuery(obj.target).parent();
+    parent_obj.find("div").hide();
+}

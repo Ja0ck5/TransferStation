@@ -1,0 +1,22 @@
+(function() {
+	var fodders = [{"adId":121,"adPid":"29","adType":2,"adLink":"http:\/\/www.duowan.com\/1701\/m_347967810799.html","adSrc":"http:\/\/ya1.dwstatic.com\/201704\/fe\/fe9d643d2b5dd24f8950fefdf55ccafb.jpg","adSrc2":""},{"adId":121,"adPid":"31","adType":2,"adLink":"http:\/\/sy.duowan.com\/zhuanlan\/27\/list-1.html","adSrc":"http:\/\/ya1.dwstatic.com\/201704\/10\/1055ee6242409b3e40580146de26ac1b.jpg","adSrc2":""},{"adId":121,"adPid":"30","adType":2,"adLink":"http:\/\/www.duowan.com\/1701\/m_347909608356.html","adSrc":"http:\/\/ya1.dwstatic.com\/201704\/b0\/b00d8ab77270a2c63a6ad3ae8893812f.jpg","adSrc2":""}];
+	if (!fodders || 0 == fodders.length) return;
+
+	var key = 'index_adId_' + fodders[0].adId;
+	var util = {
+		get: function(k) {
+			if ( ! window.__da_index) window.__da_index = {};
+			if ( !window.__da_index[k]) window.__da_index[k] = 0;
+			return window.__da_index[k];
+		},
+		set: function(k, v) {
+			if ( !window.__da_index) window.__da_index = {};
+			window.__da_index[k] = v;
+		}
+	};
+	var index = util.get(key);
+	var fodder = fodders[index % fodders.length];
+	util.set(key, ++index);
+  	document.write('<div style="width:200px;margin:0 auto;"><a class="da-block-wrapper" locid="' + fodder.adId + '" pid="' + fodder.adPid + '" href="' + fodder.adLink + '"  target="_blank" style="display:inline-block;position:relative;"><img src="' + fodder.adSrc + '" width="200" height="30" style="vertical-align:top;"/><img style="position:absolute;bottom:2px;left: 2px;width: 28px;height: 14px" src="http://assets.dwstatic.com/common/img/ad_tips_1608.png" /></a></div>')
+  	document.market_loadids += fodder.adId;
+})()

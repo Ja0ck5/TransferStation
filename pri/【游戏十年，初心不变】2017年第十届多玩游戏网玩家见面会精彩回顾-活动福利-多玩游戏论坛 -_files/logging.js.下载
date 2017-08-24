@@ -1,0 +1,116 @@
+/*
+	[Discuz!] (C)2001-2009 Comsenz Inc.
+	This is NOT a freeware, use is subject to license terms
+
+	$Id: logging.js 21541 2011-03-31 02:44:01Z monkey $
+*/
+
+function lsSubmit() {
+//	if(op) {
+//		$('lsform').cookietime.value = 2592000;
+//	}
+//	if($('ls_username').value == '' || $('ls_password').value == '') {
+//		showWindow('login', 'member.php?mod=logging&action=login' + (op ? '&cookietime=1' : ''));
+//	} else {
+//		$('ls_password').value=hex_sha1($('ls_password').value);
+//		//ajaxpost('lsform', 'return_ls', 'return_ls');
+//	}
+//	return true;	
+	showWindow('login', 'member.php?mod=logging&action=login');
+}
+
+function autologin(id) {
+	setcookie('cookietime', 1, id.checked==true ? 2592000 : -2592000);
+}
+
+function regUsernameSubmit() {
+	var id = 'usernamenew';
+	var username = trim($(id).value);
+	if(username.match(/<|"/ig)) {
+		errormessage(id,'用户名包含敏感字符');
+		return false;
+	}
+	var unlen = username.replace(/[^\x00-\xff]/g, "**").length;
+
+	if(unlen < 3 || unlen > 15) {
+		errormessage(id, unlen < 3 ? '用户名小于 3 个字符' : '用户名超过 15 个字符');
+		return false;
+	}
+	var x = new Ajax();
+	x.get('forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkusername&username=' + (BROWSER.ie && document.charset == 'utf-8' ? encodeURIComponent(username) : username), function(s) {
+		if(s != 'succeed') {
+			$('chk_usernamenew').innerHTML = '<img src="static/image/common/check_error.gif" width="16" height="16" class="vm" /> ' + s;
+			return false;
+		}else {
+			$('regusername_form').submit();
+			return true;
+		}
+	});
+	return false;
+}
+
+function errormessage(id, msg) {
+	if($(id)) {
+		showInputTip();
+		msg = !msg ? '' : msg;
+		if($('tip_' + id)) {
+			if(msg == 'succeed') {
+				msg = '';
+				$('tip_' + id).parentNode.className = $('tip_' + id).parentNode.className.replace(/ p_right/, '');
+				$('tip_' + id).parentNode.className += ' p_right';
+			} else if(msg !== '') {
+				$('tip_' + id).parentNode.className = $('tip_' + id).parentNode.className.replace(/ p_right/, '');
+			}
+		}
+		if($('chk_' + id)) {
+			$('chk_' + id).innerHTML = msg;
+		}
+		$(id).className = !msg ? $(id).className.replace(/ er/, '') : $(id).className + ' er';
+	}
+}
+
+function checkusername() {
+	$('usernamenew').className = $('usernamenew').className.replace(/ er/, '');
+	$('chk_usernamenew').innerHTML = '';
+	var id = 'usernamenew';
+	var username = trim($(id).value);
+	if(username.match(/<|"/ig)) {
+		errormessage(id,'用户名包含敏感字符');
+		return false;
+	}
+	var unlen = username.replace(/[^\x00-\xff]/g, "**").length;
+
+	if(unlen < 3 || unlen > 15) {
+		errormessage(id, unlen < 3 ? '用户名小于 3 个字符' : '用户名超过 15 个字符');
+		return false;
+	}
+	var x = new Ajax();
+	x.get('forum.php?mod=ajax&inajax=yes&infloat=register&handlekey=register&ajaxmenu=1&action=checkusername&username=' + (true || (BROWSER.ie && document.charset == 'utf-8')? encodeURIComponent(username) : username), function(s) {
+		if(s != 'succeed') {
+			$('chk_usernamenew').innerHTML = '<img src="static/image/common/check_error.gif" width="16" height="16" class="vm" /> ' + s;
+		}else {
+			$('chk_usernamenew').innerHTML = '<img src="static/image/common/check_right.gif" width="16" height="16" class="vm" /> ';
+		}
+	});
+}
+
+function showInputTip(id) {
+	var p_tips = $('regusername_form').getElementsByTagName('i');
+	for(i = 0;i < p_tips.length;i++){
+		if(p_tips[i].className == 'p_tip'){
+			p_tips[i].style.display = 'none';
+		}
+	}
+	if($('tip_' + id)) {
+		$('tip_' + id).style.display = 'block';
+	}
+}
+
+function errorhandle_ls(str, param) {
+	if(!param['type']) {
+		showError(str);
+	}
+}
+
+function checkregusername(id) {
+}

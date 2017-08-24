@@ -1,0 +1,11 @@
+(function() {
+    var s = "_" + Math.random().toString(36).slice(2);
+    document.write('<div locid="120" pid="0" class="da-block-wrapper"></div>');
+    (window.slotbydup=window.slotbydup || []).push({
+        id: '3402837',
+        container: s,
+        size: '640,60',
+        display: 'inlay-fix'
+    });
+})();
+document.write('<script src="http://dup.baidustatic.com/js/os.js"></script>');

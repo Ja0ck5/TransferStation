@@ -62,8 +62,6 @@ Scala 比起 Java 更加简洁
 
 对此，在写 Python 的时候也感受到了简洁的力量，温柔而强大。当然，对于底层的认知，的确是需要花时间去好好研究，不止于用。
 
-
-
 ![](<http://w2.dwstatic.com/yy/ojiastoreimage/625x467/1513133401799_11_len216354.png>)
 
 
